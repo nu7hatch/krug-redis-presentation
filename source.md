@@ -47,6 +47,10 @@ KRUG 28.09.2010
     $ ./redis-cli set hello KRUG
     $ ./redis-cli get hello
 
+## Database commands
+
+...
+
 ## Persistence  
 
 ### Snapshot
@@ -168,4 +172,12 @@ cache store  (k)
 ruby i18n (k)
 ACLatraz (n)
 React (n)
+
+## Fresh ideas
+
+...
+
+## Bigdis
+
+...
 
