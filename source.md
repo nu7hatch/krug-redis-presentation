@@ -173,23 +173,29 @@ TODO: przykłady z ruby'ego
 
 ## Atomic operations
 
-    $ SET foo 10
+    $ redis-cli set foo 10
     
-    $ MULTI
-    $ GET foo
-    $ SET foo 20
-    $ EXEC
+    $ redis-cli
+    $ multi
+    $ get foo
+    $ set foo 20
+    $ exex
     10
     20
     
 Is the same as:
     
-    $ GETSET foo 20
+    $ redis-cli getset foo 20
 
 ## Pubsub channels 
 
-TODO: przykłady z ruby'ego
-
+    $ redis-cli subscribe chat
+    $ redis-cli subscribe chat1 chat2 chat3
+    $ redis-cli psubscribe chat.*
+  
+    $ redis-cli publish chat hello
+    $ redis-cli publish chat KRUG!
+    
 ## Redis and Ruby in the wild
 
     $ gem install redis
