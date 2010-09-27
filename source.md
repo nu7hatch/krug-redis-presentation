@@ -258,6 +258,8 @@ Easy namespacing for redis client.
     >> events.del
     >> true
 
+[http://github.com/soveran/nest)](http://github.com/soveran/nest)
+
 ### ACLatraz
 
 Redis based ACL system for ruby. 
@@ -281,7 +283,7 @@ Redis based ACL system for ruby.
 
 ### React
 
-Tool for queue-activating shell scripts.
+Tool for activating shell scripts via queue.
 
 * Inspiration:
 
@@ -303,6 +305,13 @@ Tool for queue-activating shell scripts.
 [http://github.com/nu7hatch/react)](http://github.com/nu7hatch/react)
 
 ## Fresh ideas
+
+* full text search engine
+* comet broadcast
+* queue-activated shell scripts
+* prefix/wildcard autocomplete
+* activity streams
+* ...
 
 ## Bigdis
 
