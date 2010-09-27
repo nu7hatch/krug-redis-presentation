@@ -71,7 +71,9 @@ Kraków Ruby Users Group
 ## Replication
 
 * only master-slave replication
+* non-blocking on the master side
 * data is safe when it's in at least 3 data centers
+* also for scalability, e.g. to perform heavy (read-only) queries like SORT
 
 Replication can be configured in `redis.conf` or live:
 
@@ -100,9 +102,9 @@ Replication can be configured in `redis.conf` or live:
 
 ### Keys
 
-* should be short for better performence
+* should be short for better performance and faster access
 * common convention: object-type:id:field
-* hashes like MD5 or SHA1
+* might be hashes like MD5 or SHA1
 
 ### Manipulating data
 
