@@ -1,10 +1,11 @@
-# Redis
+# R^2 - Redis and Ruby in the wild 
 
 Kraków Ruby Users Group 
 28.09.2010
 
 *Krzysztof Kowalik - Araneo* 
-TODO email ?
+kriss.kowalik@gmail.com
+
 *Krzysztof Knapik - Lunar Logic Polska* 
 knapo@knapo.net
 
@@ -138,9 +139,16 @@ Replication can be configured in `redis.conf` or live:
     $ >> redis.get "foo"
     $ => "bar"
 
-## Storing objects
+## Storing objects...
 
-TODO:...
+* serialization - JSON, Marshal dump (mainly for read-only data)
+* multiple keys, eg:
+
+    $ set user:1:name Chris
+    $ set user:1:surname Kowalik
+    $ set user:1:age 22 
+
+* hashes
 
 ## (Linked) Lists
 
@@ -180,23 +188,29 @@ TODO: przykłady z ruby'ego
 
 ## Atomic operations
 
-    $ SET foo 10
+    $ redis-cli set foo 10
     
-    $ MULTI
-    $ GET foo
-    $ SET foo 20
-    $ EXEC
+    $ redis-cli
+    $ multi
+    $ get foo
+    $ set foo 20
+    $ exex
     10
     20
     
 Is the same as:
     
-    $ GETSET foo 20
+    $ redis-cli getset foo 20
 
 ## Pubsub channels 
 
-TODO: przykłady z ruby'ego
-
+    $ redis-cli subscribe chat
+    $ redis-cli subscribe chat1 chat2 chat3
+    $ redis-cli psubscribe chat.*
+  
+    $ redis-cli publish chat hello
+    $ redis-cli publish chat KRUG!
+    
 ## Redis and Ruby in the wild
 
 ### redis-store gem 
@@ -214,10 +228,48 @@ TODO: przykłady z ruby'ego
   * store only needs to respond to three methods
   * _store#[](key), store#[]=(key, value), store#keys_
 
-### Resque and Ost
+### Background jobs
   
-  * redis based queues and workers
-  * TODO knapo
+#### Resque
+
+TODO...
+
+#### Ost
+
+Makes it easy to enqueue object ids and process them with workers
+
+    # in your app
+    Ost.connect port: 6380, db: 2
+    Ost[:rss_feeds] << @feed.id
+
+    # in worker.rb
+    require "ost"
+
+    Ost[:videos_to_process].each do |id|
+      # Do something with it!
+    end
+    
+    $ ruby worker.rb
+
+#### Trolley
+
+* jobs are not methods
+
+      Trolley[:myqueue].enqueue("send-hello-mail", @user)
+      
+      include Trolley::Helpers
+      enqueue(:myqueue, "send-hello-mail", @user)
+      
+* elegant sinatra-like syntax in workers
+ 
+      job "send-hello-mail" do |args|
+        HelloMailer.deliver_greetings(*args)
+      ends
+
+* jobs execution monitoring (Google's Chubby like hub)
+* can be used with AMQP
+
+... coming soon =P
 
 ### ORMs?:(
 
@@ -240,17 +292,85 @@ TODO: przykłady z ruby'ego
 
 ### Others TODO
 
-  * nest (n)
-  * ACLatraz (n)
-  * React (n)
+Easy namespacing for redis client.
+
+    >> event = Nest.new("event")
+    >> @redis.set event[3][:name], "Redis Meetup"
+    >> @redis.get event[3][:name]
+    => "Redis Meetup"
+
+    >> events = Nest.new("events", Redis.new)
+    => "events"
+    >> events.sadd(meetup)
+    => true
+    >> events.smembers
+    => ["events:1"]
+    >> events.del
+    >> true
+
+[http://github.com/soveran/nest)](http://github.com/soveran/nest)
+
+### ACLatraz
+
+Redis based ACL system for ruby. 
+
+* Extremaly fast (3000+ operations/s)
+* Extremaly easy to use:
+ 
+      user.is.admin?
+      user.is.manager_of!(Product)
+      user.is.owner_of?(@product)
+      
+      suspects user { 
+        deny all
+        allow :manager_of => Product
+        allow :owner_of   => :product 
+      }
+      
+* Flexible (can be used with Rails, Sinatra, Padirno, pure Ruby apps...)
+      
+[http://github.com/nu7hatch/aclatraz)](http://github.com/nu7hatch/aclatraz)
+
+### React
+
+Tool for activating shell scripts via queue.
+
+* Inspiration:
+
+      while [ 1 ] do
+        redis-cli blpop restart-httpd 0
+        apache2ctl graceful
+      done
+      
+* Realization:
+
+      # my_commands.yml
+      restart_httpd: apache2ctl graceful
+      reboot: shutdown -r now
+        
+      $ react my_commands.yml --queue "my:queue"
+      $ redis-cli lpush my:queue restart_httpd
+      $ redis-cli lpush my:queue reboot
+
+[http://github.com/nu7hatch/react)](http://github.com/nu7hatch/react)
 
 ## Fresh ideas
 
-...
+* full text search engine
+* comet broadcast
+* queue-activated shell scripts
+* prefix/wildcard autocomplete
+* activity streams
+* ...
 
 ## Bigdis
 
-...
+* even smaller and faster than redis...
+* file-based storage
+* key == filename
+* value == file contents
+
+Why do we need that? o_O
 
 ## Questions?
 
