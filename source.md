@@ -242,7 +242,21 @@ TODO: przykłady z ruby'ego
 
 ### Others TODO
 
-  * nest (n)
+Easy namespacing for redis client.
+
+    >> event = Nest.new("event")
+    >> @redis.set event[3][:name], "Redis Meetup"
+    >> @redis.get event[3][:name]
+    => "Redis Meetup"
+
+    >> events = Nest.new("events", Redis.new)
+    => "events"
+    >> events.sadd(meetup)
+    => true
+    >> events.smembers
+    => ["events:1"]
+    >> events.del
+    >> true
 
 ### ACLatraz
 
@@ -285,6 +299,8 @@ Tool for queue-activating shell scripts.
       $ react my_commands.yml --queue "my:queue"
       $ redis-cli lpush my:queue restart_httpd
       $ redis-cli lpush my:queue reboot
+
+[http://github.com/nu7hatch/react)](http://github.com/nu7hatch/react)
 
 ## Fresh ideas
 
