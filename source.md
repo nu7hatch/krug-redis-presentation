@@ -182,12 +182,39 @@ TODO: przykłady z ruby'ego
 
 ## Redis and Ruby in the wild
 
-nest (n)
-resque - Ost (n/k)
-cache store  (k)
-ruby i18n (k)
-ACLatraz (n)
-React (n)
+    $ gem install redis
+
+    $ >> redis = Redis.new(:host => "10.0.1.1", :port => 6380, :db => 0)
+    $ => #<Redis client v2.0.10 connected to redis://127.0.0.1:6379/0 (Redis v2.0.1)>
+
+    $ >> redis.set "foo", "bar"
+    $ => "OK"
+    $ >> redis.get "foo"
+    $ => "bar"
+
+### [redis-store](http://github.com/honkster/redis-store) gem 
+
+  * various redis stores for ruby web frameworks
+  * session store
+  * cache store
+  * i18n backend
+  
+### ruby i18n
+
+  * basic backend for key value stores
+  * _I18n::Backend::KeyValue.new(@redis_or_tokyo_cabinet_store)_
+  * store only needs to respond to three methods:
+    - store#[](key)
+    - store#[]=(key, value)
+    - store#keys
+
+### Others TODO
+
+  * nest (n)
+  * resque - Ost (n/k)
+  * ruby i18n (k)
+  * ACLatraz (n)
+  * React (n)
 
 ## Fresh ideas
 
