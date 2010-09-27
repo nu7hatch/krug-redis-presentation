@@ -122,7 +122,10 @@ Replication can be configured in `redis.conf` or live:
 
 TODO:...
 
-## Lists
+## (Linked) Lists
+
+  * sequence of ordered elements
+  * rapid adding elements independly of list size
 
     $ lpush foo bar
     $ rpush foo bla
