@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>R^2 - Redis and Ruby in the wild</title>
+  <meta name="http-equiv" content="text/html; charset=utf-8"/>
+  <meta name="author" content="Kriss Kowalik, Krzysztof Knapik" />
+  <style type="text/css">
+    body { font-family: "Bitstream Vera Sans", Helvetica; font-size: 170%; padding-top: 40px; margin-bottom: 200px; }
+    #main { width: 960px; margin: 0 auto; }
+    pre { margin-left: 45px; "Bitstream Vera Sans Mono", font-size: 200%; }
+    li pre { margin-left: 30px; }
+    h1,h2,h3,h4,h5,h6 { text-align: center; margin-bottom: 55px; }
+    hr { border: 0; background: 0; margin-top: 800px; display: block; padding-bottom: 50px; }
+  </style>
+  <script type="text/javascript" src="http://code.jquery.com/jquery-1.4.2.min.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      var current = $('hr:first');
+      $(window).keypress(function(key) {
+        var targetOffset = current.offset().top;
+        $('html,body').animate({scrollTop: targetOffset}, 1000);
+        current = current.nextAll('hr').first();
+      })
+    })
+  </script>
+</head>
+<body>
+  <div id="main">
+    {{ content }}
+  </div>
+</body>
+</html>
