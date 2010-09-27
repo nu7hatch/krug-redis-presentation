@@ -223,9 +223,48 @@ Is the same as:
   * store only needs to respond to three methods
   * _store#[](key), store#[]=(key, value), store#keys_
 
-### Resque and Ost
+### Background jobs
   
-  * TODO
+#### Resque
+
+TODO...
+
+#### Ost
+
+Makes it easy to enqueue object ids and process them with workers
+
+    # in your app
+    Ost.connect port: 6380, db: 2
+    Ost[:rss_feeds] << @feed.id
+
+    # in worker.rb
+    require "ost"
+
+    Ost[:videos_to_process].each do |id|
+      # Do something with it!
+    end
+    
+    $ ruby worker.rb
+
+#### Trolley
+
+* jobs are not methods
+
+      Trolley[:myqueue].enqueue("send-hello-mail", @user)
+      
+      include Trolley::Helpers
+      enqueue(:myqueue, "send-hello-mail", @user)
+      
+* elegant sinatra-like syntax in workers
+ 
+      job "send-hello-mail" do |args|
+        HelloMailer.deliver_greetings(*args)
+      ends
+
+* jobs execution monitoring (Google's Chubby like hub)
+* can be used with AMQP
+
+... coming soon =P
 
 ### ORMs?:(
 
