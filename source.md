@@ -267,6 +267,25 @@ Redis based ACL system for ruby.
 
 ### React
 
+Tool for queue-activating shell scripts.
+
+* Inspiration:
+
+      while [ 1 ] do
+        redis-cli blpop restart-httpd 0
+        apache2ctl graceful
+      done
+      
+* Realization:
+
+      # my_commands.yml
+      restart_httpd: apache2ctl graceful
+      reboot: shutdown -r now
+        
+      $ react my_commands.yml --queue "my:queue"
+      $ redis-cli lpush my:queue restart_httpd
+      $ redis-cli lpush my:queue reboot
+
 ## Fresh ideas
 
 ## Bigdis
