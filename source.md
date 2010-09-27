@@ -51,7 +51,11 @@ Kraków Ruby Users Group
 
 ## Database commands
 
-...
+  * SELECT - switches between 16 dbs (db0 is default)
+  * MOVE - moves keys from one db to another
+  * FLUSHDB, FLUSHALL - deletes keys in current/all dbs
+  * DBSIZE, INFO
+  * redis-stat (part of [redis-tools](http://github.com/antirez/redis-tools))
 
 ## Persistence  
 
@@ -73,7 +77,7 @@ Kraków Ruby Users Group
 * only master-slave replication
 * non-blocking on the master side
 * data is safe when it's in at least 3 data centers
-* also for scalability, e.g. to perform heavy (read-only) queries like SORT
+* also for scalability, e.g. to perform heavy (read-only) queries like some SORT
 
 Replication can be configured in `redis.conf` or live:
 
