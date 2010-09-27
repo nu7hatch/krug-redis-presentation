@@ -1,10 +1,11 @@
-# Redis
+# R^2 - Redis and Ruby in the wild 
 
 Kraków Ruby Users Group 
 28.09.2010
 
 *Krzysztof Kowalik - Araneo* 
-TODO email ?
+kriss.kowalik@gmail.com
+
 *Krzysztof Knapik - Lunar Logic Polska* 
 knapo@knapo.net
 
@@ -126,9 +127,16 @@ Replication can be configured in `redis.conf` or live:
     $ incrby foo:bar 10
     10
 
-## Storing objects
+## Storing objects...
 
-TODO:...
+* serialization - JSON, Marshal dump (mainly for read-only data)
+* multiple keys, eg:
+
+    $ set user:1:name Chris
+    $ set user:1:surname Kowalik
+    $ set user:1:age 22 
+
+* hashes
 
 ## (Linked) Lists
 
@@ -244,7 +252,12 @@ TODO: przykłady z ruby'ego
 
 ## Bigdis
 
-...
+* even smaller and faster than redis...
+* file-based storage
+* key == filename
+* value == file contents
+
+Why do we need that? o_O
 
 ## Questions?
 
