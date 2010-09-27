@@ -206,10 +206,12 @@ TODO: przykłady z ruby'ego
 
   * basic backend for key value stores
   * _I18n::Backend::KeyValue.new(@redis_or_tokyo_cabinet_store)_
-  * store only needs to respond to three methods:
-    - store#[](key)
-    - store#[]=(key, value)
-    - store#keys
+  * store only needs to respond to three methods
+  * _store#[](key), store#[]=(key, value), store#keys_
+
+### Resque and Ost
+  
+  * TODO
 
 ### ORMs?:(
 
@@ -233,8 +235,6 @@ TODO: przykłady z ruby'ego
 ### Others TODO
 
   * nest (n)
-  * resque - Ost (n/k)
-  * ruby i18n (k)
   * ACLatraz (n)
   * React (n)
 
