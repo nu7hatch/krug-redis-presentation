@@ -119,12 +119,24 @@ Replication can be configured in `redis.conf` or live:
     foobar
     $ del foo:bar:bla
     
-    $ incr foo:bar
-    1
-    $ decr foo:bar
-    0
-    $ incrby foo:bar 10
-    10
+    $ incr forfiter:length
+    5
+    $ decr forfiter:length
+    4
+    $ incrby forfiter:length 12
+    16
+
+## Redis with Ruby
+
+    $ gem install redis
+
+    $ >> redis = Redis.new(:host => "10.0.1.1", :port => 6380, :db => 0)
+    $ => #<Redis client v2.0.10 connected to redis://127.0.0.1:6379/0 (Redis v2.0.1)>
+
+    $ >> redis.set "foo", "bar"
+    $ => "OK"
+    $ >> redis.get "foo"
+    $ => "bar"
 
 ## Storing objects
 
@@ -134,22 +146,18 @@ TODO:...
 
   * sequence of ordered elements
   * rapid adding elements independly of list size
+  * fine as a queue - just push things on one end and pop them off the other
 
-    $ lpush foo bar
-    $ rpush foo bla
-    $ lrange foo 0 -1
-    bla
-    bar
-    $ rpop foo
-    bla
+    $ redis.lpush "forfiter", "hirr"
+    $ redis.lpush "forfiter", "gierary"
+    $ redis.lrange "forfiter", 0, -1
+    $ => ["gierary", "hirr"]
+    $ redis.rpop "forfiter"
+    $ => "gierary"
     
 ## Sorting 
 
 TODO:...
-
-## Queues
-
-TODO: przykłady z ruby'ego
 
 ## Sets
 
@@ -161,7 +169,14 @@ TODO: przykłady z ruby'ego
 
 ## Hashes
 
-TODO: przykłady z ruby'ego
+  * makes storing objects in Redis even easier
+  * HSET/HGET/HMGET/HMSET/HINCRBY/
+    HEXISTS/HDEL/HLEN/HKEYS/HVALS/HGETALL
+    
+    $ redis.hset "forfiter", "length", 4
+    $ redis.hset "forfiter", "appearance", "bjutiful"
+    $ redis.hgetall "forfiter"
+    $ => {"appearance"=>"bjutiful", "length"=>"4"}
 
 ## Atomic operations
 
@@ -184,16 +199,6 @@ TODO: przykłady z ruby'ego
 
 ## Redis and Ruby in the wild
 
-    $ gem install redis
-
-    $ >> redis = Redis.new(:host => "10.0.1.1", :port => 6380, :db => 0)
-    $ => #<Redis client v2.0.10 connected to redis://127.0.0.1:6379/0 (Redis v2.0.1)>
-
-    $ >> redis.set "foo", "bar"
-    $ => "OK"
-    $ >> redis.get "foo"
-    $ => "bar"
-
 ### redis-store gem 
 
   * [http://github.com/honkster/redis-store](http://github.com/honkster/redis-store)
@@ -211,7 +216,8 @@ TODO: przykłady z ruby'ego
 
 ### Resque and Ost
   
-  * TODO
+  * redis based queues and workers
+  * TODO knapo
 
 ### ORMs?:(
 
@@ -223,7 +229,7 @@ TODO: przykłady z ruby'ego
 
   * [http://github.com/soveran/ohm](http://github.com/soveran/ohm)
   * object-hash mapping library for redis
-  * TODO
+  * TODO knapo
 
 ### redis-objects
 
