@@ -4,7 +4,9 @@ Kraków Ruby Users Group
 28.09.2010
 
 *Krzysztof Kowalik - Araneo* 
+TODO email ?
 *Krzysztof Knapik - Lunar Logic Polska* 
+knapo@knapo.net
 
 ## Agenda
 
@@ -192,8 +194,9 @@ TODO: przykłady z ruby'ego
     $ >> redis.get "foo"
     $ => "bar"
 
-### [redis-store](http://github.com/honkster/redis-store) gem 
+### redis-store gem 
 
+  * [http://github.com/honkster/redis-store](http://github.com/honkster/redis-store)
   * various redis stores for ruby web frameworks
   * session store
   * cache store
@@ -207,6 +210,25 @@ TODO: przykłady z ruby'ego
     - store#[](key)
     - store#[]=(key, value)
     - store#keys
+
+### ORMs?:(
+
+  * [http://github.com/whoahbot/dm-redis-adapter](http://github.com/whoahbot/dm-redis-adapter)
+  * [http://github.com/voloko/redis-model](http://github.com/voloko/redis-model)
+  * [http://github.com/tlossen/remodel](http://github.com/voloko/remodel)
+
+### Ohm
+
+  * [http://github.com/soveran/ohm](http://github.com/soveran/ohm)
+  * object-hash mapping library for redis
+  * TODO
+
+### redis-objects
+
+  * [http://github.com/nateware/redis-objects)](http://github.com/nateware/redis-objects)
+  * maps redis types to ruby objects
+  * easy to integrate directly with existing ORMs (AR, DM etc.)
+  * TODO
 
 ### Others TODO
 
@@ -227,4 +249,7 @@ TODO: przykłady z ruby'ego
 ## Questions?
 
 ## Thank you!
+
+  [http://code.google.com/p/redis](http://code.google.com/p/redis)
+  [http://rediscookbook.org](http://rediscookbook.org)
 
