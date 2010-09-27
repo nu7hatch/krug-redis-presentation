@@ -1,8 +1,10 @@
 # Redis
 
-KRUG 28.09.2010
+Kraków Ruby Users Group 
+28.09.2010
 
-*Krzysztof Knapik, Krzysztof Kowalik* 
+*Krzysztof Kowalik - Araneo* 
+*Krzysztof Knapik - Lunar Logic Polska* 
 
 ## Agenda
 
@@ -76,9 +78,14 @@ Replication can be configured in `redis.conf` or live:
     SLAVEOF <masterip> <masterport>
     SLAVEOF no one
     
-## Virtual memory
+## Virtual Memory
 
-TODO:...
+* usually both keys and values are in memory
+* values can be swapped out to disk when they are rarely used
+* when enabling VM is a good idea...?
+* faster keys lookup - slower access to values
+* _vm-max-memory_ - when redis should start swapping
+* _vm-pages_, _vm-page-size_ (e.g. 100M and 32B)
 
 ## Data types
 
