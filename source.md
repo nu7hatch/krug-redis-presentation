@@ -70,8 +70,8 @@ Kraków Ruby Users Group
 
 ## Replication
 
-* There is only master-slave replication
-* Your data is safe when is's in at least 3 data centers
+* only master-slave replication
+* data is safe when it's in at least 3 data centers
 
 Replication can be configured in `redis.conf` or live:
 
@@ -187,4 +187,8 @@ React (n)
 ## Bigdis
 
 ...
+
+## Questions?
+
+## Thank you!
 
