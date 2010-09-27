@@ -251,6 +251,9 @@ Is the same as:
 
     QUEUE=* rake resque:work
 
+  * [redis-namespace](http://github.com/defunkt/redis-namespace): Resque.redis.namespace = "aligator"
+  * [http://github.com/defunkt/resque](http://github.com/defunkt/resque)
+
 #### Ost
 
 Makes it easy to enqueue object ids and process them with workers
@@ -307,7 +310,7 @@ Makes it easy to enqueue object ids and process them with workers
   * easy to integrate directly with existing ORMs (AR, DM etc.)
   * TODO
 
-### Others TODO
+### Namespacing
 
 Easy namespacing for redis client.
 
