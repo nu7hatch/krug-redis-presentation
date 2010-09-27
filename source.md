@@ -120,12 +120,24 @@ Replication can be configured in `redis.conf` or live:
     foobar
     $ del foo:bar:bla
     
-    $ incr foo:bar
-    1
-    $ decr foo:bar
-    0
-    $ incrby foo:bar 10
-    10
+    $ incr forfiter:length
+    5
+    $ decr forfiter:length
+    4
+    $ incrby forfiter:length 12
+    16
+
+## Redis with Ruby
+
+    $ gem install redis
+
+    $ >> redis = Redis.new(:host => "10.0.1.1", :port => 6380, :db => 0)
+    $ => #<Redis client v2.0.10 connected to redis://127.0.0.1:6379/0 (Redis v2.0.1)>
+
+    $ >> redis.set "foo", "bar"
+    $ => "OK"
+    $ >> redis.get "foo"
+    $ => "bar"
 
 ## Storing objects...
 
@@ -142,34 +154,58 @@ Replication can be configured in `redis.conf` or live:
 
   * sequence of ordered elements
   * rapid adding elements independly of list size
+  * fine as a queue - just push things on one end and pop them off the other
 
-    $ lpush foo bar
-    $ rpush foo bla
-    $ lrange foo 0 -1
-    bla
-    bar
-    $ rpop foo
-    bla
+    $ redis.lpush "forfiter", "hirr"
+    $ redis.lpush "forfiter", "gierary"
+    $ redis.lrange "forfiter", 0, -1
+    $ => ["gierary", "hirr"]
+    $ redis.rpop "forfiter"
+    $ => "gierary"
     
 ## Sorting 
 
 TODO:...
 
-## Queues
-
-TODO: przykłady z ruby'ego
-
 ## Sets
+  
+  * unordered collections of redis strings
 
-TODO: przykłady z ruby'ego
+    $ > redis.sadd "forfiter", "garymuvalt"
+    $ => true
+    $ > redis.sadd "forfiter", "gieraryhirr"
+    $ => true
+    $ > redis.sadd "forfiter", "cziken"
+    $ => true
+    $ > redis.sadd "forfiter", "cziken"
+    $ => false
+    $ > redis.spop "forfiter"
+    $ => "gieraryhirr"
 
 ## Sorted sets (zsets)
 
-TODO: przykłady z ruby'ego
+  * similar to sets, but every member has an associated score
+
+    $ > redis.zadd "forfiter", 6, "alt"
+    $ => true
+    $ > redis.zadd "forfiter", 3, "muv"
+    $ => true
+    $ > redis.zadd "forfiter", 2, "gary"
+    $ => true
+    $ > redis.zrange "forfiter", 0, -1
+    $ => ["gary", "muv", "alt"]
+
 
 ## Hashes
 
-TODO: przykłady z ruby'ego
+  * makes storing objects in Redis even easier
+  * HSET/HGET/HMGET/HMSET/HINCRBY/
+    HEXISTS/HDEL/HLEN/HKEYS/HVALS/HGETALL
+    
+    $ redis.hset "forfiter", "length", 4
+    $ redis.hset "forfiter", "appearance", "bjutiful"
+    $ redis.hgetall "forfiter"
+    $ => {"appearance"=>"bjutiful", "length"=>"4"}
 
 ## Atomic operations
 
@@ -198,16 +234,6 @@ Is the same as:
     
 ## Redis and Ruby in the wild
 
-    $ gem install redis
-
-    $ >> redis = Redis.new(:host => "10.0.1.1", :port => 6380, :db => 0)
-    $ => #<Redis client v2.0.10 connected to redis://127.0.0.1:6379/0 (Redis v2.0.1)>
-
-    $ >> redis.set "foo", "bar"
-    $ => "OK"
-    $ >> redis.get "foo"
-    $ => "bar"
-
 ### redis-store gem 
 
   * [http://github.com/honkster/redis-store](http://github.com/honkster/redis-store)
@@ -227,7 +253,27 @@ Is the same as:
   
 #### Resque
 
-TODO...
+  * bg jobs - any ruby class/module responding to perform
+
+    class ForfiterWorker
+      @queue = :gierary_hirr
+      
+      def self.perform(forfiter_id, no_of_cziekns)
+        forfiter = Forfiter.find(forfiter_id)
+        forfiter.eat_cziken(no_of_cziekns)
+      end
+    end
+
+    class Forfiter
+      def async_give_cziken(amount = 4)
+        Resque.enqueue(ForfiterWorker, self.id, amount)
+      end
+    end
+
+    QUEUE=* rake resque:work
+
+  * [redis-namespace](http://github.com/defunkt/redis-namespace): Resque.redis.namespace = "aligator"
+  * [http://github.com/defunkt/resque](http://github.com/defunkt/resque)
 
 #### Ost
 
@@ -276,7 +322,7 @@ Makes it easy to enqueue object ids and process them with workers
 
   * [http://github.com/soveran/ohm](http://github.com/soveran/ohm)
   * object-hash mapping library for redis
-  * TODO
+  * TODO knapo
 
 ### redis-objects
 
@@ -285,7 +331,7 @@ Makes it easy to enqueue object ids and process them with workers
   * easy to integrate directly with existing ORMs (AR, DM etc.)
   * TODO
 
-### Others TODO
+### Namespacing
 
 Easy namespacing for redis client.
 
