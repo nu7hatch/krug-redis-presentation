@@ -17,4 +17,4 @@ Redis based ACL system for ruby.
       
 * Flexible (can be used with Rails, Sinatra, Padirno, pure Ruby apps...)
       
-[http://github.com/nu7hatch/aclatraz)](http://github.com/nu7hatch/aclatraz)
+[http://github.com/nu7hatch/aclatraz](http://github.com/nu7hatch/aclatraz)
