@@ -1,6 +1,6 @@
 ### ruby i18n
 
   * basic backend for key value stores
-  * _I18n::Backend::KeyValue.new(@redis_or_tokyo_cabinet_store)_
+  * `I18n::Backend::KeyValue.new(@redis_or_tokyo_cabinet_store)`
   * store only needs to respond to three methods
-  * _store#[](key), store#[]=(key, value), store#keys_
+  * `store#[](key)`, `store#[]=(key, value)`, `store#keys`

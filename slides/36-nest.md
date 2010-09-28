@@ -16,4 +16,4 @@ Namespacing made easy:
     >> events.del
     >> true
     
-[http://github.com/soveran/nest)](http://github.com/soveran/nest)
+[http://github.com/soveran/nest](http://github.com/soveran/nest)
