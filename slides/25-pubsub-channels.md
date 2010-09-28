@@ -1,4 +1,4 @@
-## Pubsub channels 
+## Publish/subscribe channels 
 
     $ redis-cli subscribe chat
     $ redis-cli subscribe chat1 chat2 chat3
