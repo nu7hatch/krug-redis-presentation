@@ -3,11 +3,6 @@
 ## Kraków Ruby Users Group 
 ### 28 September 2010
 
-<center>
-  **Krzysztof Kowalik** - Araneo <br />
-  kriss.kowalik@gmail.com
+->**Krzysztof Kowalik** (kriss.kowalik@gmail.com) - Araneo<-
 
-  **Krzysztof Knapik** - Lunar Logic Polska <br />
-  knapo@knapo.net
-</center>
-
+->**Krzysztof Knapik** (knapo@knapo.net) - Lunar Logic Polska<-
