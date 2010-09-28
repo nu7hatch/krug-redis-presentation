@@ -1,4 +1,4 @@
-# R² - Redis and Ruby in the wild 
+# R^2 - Redis and Ruby in the wild 
 
 ## Kraków Ruby Users Group 
 ### 28 September 2010

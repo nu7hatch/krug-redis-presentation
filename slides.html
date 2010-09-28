@@ -48,15 +48,15 @@
 </head>
 <body id="slide-0">
   <div id="main">
-    <h1>R² - Redis and Ruby in the wild</h1>
+    <h1>R<sup>2</sup> - Redis and Ruby in the wild</h1>
 
 <h2>Kraków Ruby Users Group</h2>
 
 <h3>28 September 2010</h3>
 
-<p>-><strong>Krzysztof Kowalik</strong> (kriss.kowalik@gmail.com) - Araneo&lt;-</p>
+<p style="text-align:center;"><strong>Krzysztof Kowalik</strong> (kriss.kowalik@gmail.com) - Araneo</p>
 
-<p>-><strong>Krzysztof Knapik</strong> (knapo@knapo.net) - Lunar Logic Polska&lt;-</p><hr id='slide-1' /><h2>Agenda</h2>
+<p style="text-align:center;"><strong>Krzysztof Knapik</strong> (knapo@knapo.net) - Lunar Logic Polska</p><hr id='slide-1' /><h2>Agenda</h2>
 
 <ul>
 <li>What is Redis and its main features</li>
@@ -64,7 +64,8 @@
 <li>Presistance, replication and VM</li>
 <li>Redis data types</li>
 <li>Ruby libs and tools</li>
-</ul><hr id='slide-2' /><h2>What Redis actualy is...?</h2>
+</ul>
+<hr id='slide-2' /><h2>What Redis actualy is...?</h2>
 
 <ul>
 <li>REmote DIctionary Server</li>
@@ -73,23 +74,26 @@
 <li>Messaging middleware?</li>
 <li>Network accessible memory, cache?</li>
 <li>... ?</li>
-</ul><hr id='slide-3' /><h2>Main features</h2>
+</ul>
+<hr id='slide-3' /><h2>Main features</h2>
 
 <ul>
-<li>Amazing speed </li>
+<li>Amazing speed</li>
 <li>Single threaded non-blocking I/O</li>
 <li>Horizontal scalability</li>
 <li>Flexible datatypes</li>
 <li>It's changing mindset :)</li>
-</ul><hr id='slide-4' /><h2>Thinking redis... when to use it?</h2>
+</ul>
+<hr id='slide-4' /><h2>Thinking redis... when to use it?</h2>
 
 <ul>
 <li>Cache</li>
 <li>Queues</li>
 <li>High load operations</li>
 <li>Large ammount of small data set</li>
-<li>When you are not afraid to lose recently updated data  </li>
-</ul><hr id='slide-5' /><h2>Getting started</h2>
+<li>When you are not afraid to lose recently updated data</li>
+</ul>
+<hr id='slide-5' /><h2>Getting started</h2>
 
 <pre><code>$ git clone git://github.com/antirez/redis
 $ cd redis
@@ -110,27 +114,31 @@ $ ./redis-cli get hello
 <li><code>FLUSHDB</code>, <code>FLUSHALL</code> - deletes keys in current/all dbs</li>
 <li><code>DBSIZE</code>, <code>INFO</code></li>
 <li>redis-stat (part of <a href="http://github.com/antirez/redis-tools">redis-tools</a>)</li>
-</ul><hr id='slide-8' /><h2>Persistence</h2><hr id='slide-9' /><h2>Persistence: Snapshot</h2>
+</ul>
+<hr id='slide-8' /><h2>Persistence</h2><hr id='slide-9' /><h2>Persistence: Snapshot</h2>
 
 <ul>
 <li>more durable == less performant</li>
 <li>by default 15/5/1 mins when 1/10/10000 have changed</li>
 <li><code>SAVE/BGSAVE</code> commands trigger a save</li>
-</ul><hr id='slide-10' /><h2>Persistence: Append Only Mode</h2>
+</ul>
+<hr id='slide-10' /><h2>Persistence: Append Only Mode</h2>
 
 <ul>
-<li>every command is written to append only file </li>
+<li>every command is written to append only file</li>
 <li>recovery is slower</li>
 <li><code>BGREWRITEAOF</code> recreates appendonly.aof file</li>
 <li>File is recreated automatically when it's too big</li>
-</ul><hr id='slide-11' /><h2>Replication</h2>
+</ul>
+<hr id='slide-11' /><h2>Replication</h2>
 
 <ul>
 <li>only master-slave replication</li>
+<li>slaves are able to accept other slaves connections</li>
 <li>non-blocking on the master side</li>
 <li>data is safe when it's in at least 3 data centers</li>
-<li>also for scalability, e.g. to perform heavy (read-only) queries like some <code>SORT</code></li>
 </ul>
+
 
 <p>Replication can be configured in <code>redis.conf</code> or live:</p>
 
@@ -145,7 +153,8 @@ SLAVEOF no one
 <li>faster keys lookup - slower access to values</li>
 <li><code>vm-max-memory</code> - when redis should start swapping</li>
 <li><code>vm-pages</code>, <code>vm-page-size</code> (e.g. 100M and 32B)</li>
-</ul><hr id='slide-13' /><h2>Data types</h2>
+</ul>
+<hr id='slide-13' /><h2>Data types</h2>
 
 <ul>
 <li>strings (up to 1 GB)</li>
@@ -154,13 +163,15 @@ SLAVEOF no one
 <li>sets with scores (sorted sets)</li>
 <li>hashes</li>
 <li>publish-subscribe channels</li>
-</ul><hr id='slide-14' /><h2>Simple operations and conventions</h2><hr id='slide-15' /><h3>Keys</h3>
+</ul>
+<hr id='slide-14' /><h2>Simple operations and conventions</h2><hr id='slide-15' /><h3>Keys</h3>
 
 <ul>
 <li>should be short for better performance and faster access</li>
 <li>common convention: <code>object-type:id:field</code></li>
 <li>might be hashes like MD5 or SHA1</li>
-</ul><hr id='slide-16' /><h3>Manipulating data</h3>
+</ul>
+<hr id='slide-16' /><h3>Manipulating data</h3>
 
 <pre><code>$ set foo:bar:bla foobar
 $ get foo:bar:bla
@@ -181,10 +192,11 @@ $ incrby foo:bar 10
 
 <pre><code>$ set user:1:name Chris
 $ set user:1:surname Kowalik
-$ set user:1:age 22
+$ set user:1:age 22 
 </code></pre></li>
 <li><p>hashes</p></li>
-</ul><hr id='slide-18' /><h2>(Linked) Lists</h2>
+</ul>
+<hr id='slide-18' /><h2>(Linked) Lists</h2>
 
 <ul>
 <li>sequence of ordered elements</li>
@@ -198,7 +210,8 @@ bar
 $ rpop foo
 bla
 </code></pre></li>
-</ul><hr id='slide-19' /><h2>Queues</h2>
+</ul>
+<hr id='slide-19' /><h2>Queues</h2>
 
 <ul>
 <li>list can acts as queue</li>
@@ -212,12 +225,12 @@ bla
   end
 end
 
-
 redis.lpush "forfiter", "cziken"
 redis.lpush "forfiter", "gierary hirr!"
 </code></pre></li>
 <li><p>remember about <code>:thread_safe</code> option!</p></li>
-</ul><hr id='slide-20' /><h2>Sets</h2>
+</ul>
+<hr id='slide-20' /><h2>Sets</h2>
 
 <ul>
 <li><p>unordered collections of redis strings</p>
@@ -233,7 +246,8 @@ redis.lpush "forfiter", "gierary hirr!"
 &gt;&gt; redis.spop "forfiter"
 =&gt; "gieraryhirr"
 </code></pre></li>
-</ul><hr id='slide-21' /><h2>Sorted sets (zsets)</h2>
+</ul>
+<hr id='slide-21' /><h2>Sorted sets (zsets)</h2>
 
 <ul>
 <li><p>similar to sets, but every member has an associated score</p>
@@ -247,7 +261,8 @@ redis.lpush "forfiter", "gierary hirr!"
 &gt;&gt; redis.zrange "forfiter", 0, -1
 =&gt; ["gary", "muv", "alt"]
 </code></pre></li>
-</ul><hr id='slide-22' /><h2>Hashes</h2>
+</ul>
+<hr id='slide-22' /><h2>Hashes</h2>
 
 <ul>
 <li>makes storing objects in Redis even easier</li>
@@ -258,7 +273,8 @@ redis.lpush "forfiter", "gierary hirr!"
 &gt;&gt; redis.hgetall "forfiter"
 =&gt; {"appearance"=&gt;"bjutiful", "length"=&gt;"4"}
 </code></pre></li>
-</ul><hr id='slide-23' /><h2>Atomic operations</h2>
+</ul>
+<hr id='slide-23' /><h2>Atomic operations</h2>
 
 <pre><code>$ redis-cli set foo 10
 
@@ -301,39 +317,41 @@ $ =&gt; "bar"
 <li>session store</li>
 <li>cache store</li>
 <li>i18n backend</li>
-</ul><hr id='slide-27' /><h3>ruby i18n</h3>
+</ul>
+<hr id='slide-27' /><h3>ruby i18n</h3>
 
 <ul>
 <li>basic backend for key value stores</li>
 <li><code>I18n::Backend::KeyValue.new(@redis_or_tokyo_cabinet_store)</code></li>
 <li>store only needs to respond to three methods</li>
 <li><code>store#[](key)</code>, <code>store#[]=(key, value)</code>, <code>store#keys</code></li>
-</ul><hr id='slide-28' /><h3>Background jobs</h3><hr id='slide-29' /><h4>Resque</h4>
+</ul>
+<hr id='slide-28' /><h3>Background jobs</h3><hr id='slide-29' /><h4>Resque</h4>
 
 <ul>
 <li><p>bg jobs - any ruby class/module responding to perform</p>
 
-<p>class ForfiterWorker
-    @queue = :gierary_hirr</p>
+<pre><code>class ForfiterWorker
+  @queue = :gierary_hirr
 
-<pre><code>def self.perform(forfiter_id, no_of_cziekns)
-  forfiter = Forfiter.find(forfiter_id)
-  forfiter.eat_cziken(no_of_cziekns)
+  def self.perform(forfiter_id, no_of_cziekns)
+    forfiter = Forfiter.find(forfiter_id)
+    forfiter.eat_cziken(no_of_cziekns)
+  end
 end
-</code></pre>
 
-<p>end</p>
+class Forfiter
+  def async_give_cziken(amount = 4)
+    Resque.enqueue(ForfiterWorker, self.id, amount)
+  end
+end
 
-<p>class Forfiter
-    def async<em>give</em>cziken(amount = 4)
-      Resque.enqueue(ForfiterWorker, self.id, amount)
-    end
-  end</p>
-
-<p>QUEUE=* rake resque:work</p></li>
+QUEUE=* rake resque:work
+</code></pre></li>
 <li><p><a href="http://github.com/defunkt/redis-namespace">redis-namespace</a>: Resque.redis.namespace = "aligator"</p></li>
 <li><a href="http://github.com/defunkt/resque">http://github.com/defunkt/resque</a></li>
-</ul><hr id='slide-30' /><h4>Ost</h4>
+</ul>
+<hr id='slide-30' /><h4>Ost</h4>
 
 <p>Makes it easy to enqueue object ids and process them with workers</p>
 
@@ -352,18 +370,23 @@ $ ruby worker.rb
 </code></pre><hr id='slide-31' /><h4>Trolley</h4>
 
 <ul>
-<li><p>jobs are not methods
-  Trolley[:myqueue].enqueue("send-hello-mail", @user)</p>
+<li><p>jobs are not methods</p>
 
-<p>include Trolley::Helpers
-  enqueue(:myqueue, "send-hello-mail", @user)</p></li>
-<li><p>elegant sinatra-like syntax in workers
-  job "send-hello-mail" do |args|
-    HelloMailer.deliver_greetings(*args)
-  ends</p></li>
+<pre><code>Trolley[:myqueue].enqueue("send-hello-mail", @user)
+
+include Trolley::Helpers
+enqueue(:myqueue, "send-hello-mail", @user)
+</code></pre></li>
+<li><p>elegant sinatra-like syntax in workers</p>
+
+<pre><code>job "send-hello-mail" do |args|
+  HelloMailer.deliver_greetings(*args)
+ends
+</code></pre></li>
 <li><p>jobs execution monitoring (Google's Chubby like hub)</p></li>
 <li>can be used with AMQP</li>
 </ul>
+
 
 <p>... coming soon =P</p><hr id='slide-32' /><h3>ORMs...?</h3>
 
@@ -371,20 +394,23 @@ $ ruby worker.rb
 <li><a href="http://github.com/whoahbot/dm-redis-adapter">http://github.com/whoahbot/dm-redis-adapter</a></li>
 <li><a href="http://github.com/voloko/redis-model">http://github.com/voloko/redis-model</a></li>
 <li><a href="http://github.com/tlossen/remodel">http://github.com/tlossen/remodel</a></li>
-</ul><hr id='slide-33' /><h3>Ohm</h3>
+</ul>
+<hr id='slide-33' /><h3>Ohm</h3>
 
 <ul>
 <li><a href="http://github.com/soveran/ohm">http://github.com/soveran/ohm</a></li>
 <li>object-hash mapping library for redis</li>
 <li>TODO</li>
-</ul><hr id='slide-34' /><h3>redis-objects</h3>
+</ul>
+<hr id='slide-34' /><h3>redis-objects</h3>
 
 <ul>
 <li><a href="http://github.com/nateware/redis-objects">http://github.com/nateware/redis-objects</a></li>
 <li>maps redis types to ruby objects</li>
 <li>easy to integrate directly with existing ORMs (AR, DM etc.)</li>
 <li>TODO</li>
-</ul><hr id='slide-35' /><h3>Nest</h3>
+</ul>
+<hr id='slide-35' /><h3>Nest</h3>
 
 <p>Namespacing made easy:</p>
 
@@ -405,23 +431,25 @@ $ ruby worker.rb
 
 <p><a href="http://github.com/soveran/nest">http://github.com/soveran/nest</a></p><hr id='slide-36' /><h3>ACLatraz</h3>
 
-<p>Redis based ACL system for ruby. </p>
+<p>Redis based ACL system for ruby.</p>
 
 <ul>
 <li>Extremaly fast (3000+ operations/s)</li>
 <li><p>Extremaly easy to use:</p>
 
-<p>user.is.admin?
-  user.is.manager_of!(Product)
-  user.is.owner_of?(@product)</p>
+<pre><code>user.is.admin?
+user.is.manager_of!(Product)
+user.is.owner_of?(@product)
 
-<p>suspects user { 
-    deny all
-    allow :manager_of => Product
-    allow :owner_of   => :product 
-  }</p></li>
+suspects user { 
+  deny all
+  allow :manager_of =&gt; Product
+  allow :owner_of   =&gt; :product 
+}
+</code></pre></li>
 <li><p>Flexible (can be used with Rails, Sinatra, Padirno, pure Ruby apps...)</p></li>
 </ul>
+
 
 <p><a href="http://github.com/nu7hatch/aclatraz">http://github.com/nu7hatch/aclatraz</a></p><hr id='slide-37' /><h3>React</h3>
 
@@ -430,20 +458,23 @@ $ ruby worker.rb
 <ul>
 <li><p>Inspiration:</p>
 
-<p>while [ 1 ] do
-    redis-cli blpop restart-httpd 0
-    apache2ctl graceful
-  done</p></li>
+<pre><code>while [ 1 ] do
+  redis-cli blpop restart-httpd 0
+  apache2ctl graceful
+done
+</code></pre></li>
 <li><p>Realization:</p>
 
-<p># my_commands.yml
-  restart_httpd: apache2ctl graceful
-  reboot: shutdown -r now</p>
+<pre><code># my_commands.yml
+restart_httpd: apache2ctl graceful
+reboot: shutdown -r now
 
-<p>$ react my_commands.yml --queue "my:queue"
-  $ redis-cli lpush my:queue restart_httpd
-  $ redis-cli lpush my:queue reboot</p></li>
+$ react my_commands.yml --queue "my:queue"
+$ redis-cli lpush my:queue restart_httpd
+$ redis-cli lpush my:queue reboot
+</code></pre></li>
 </ul>
+
 
 <p><a href="http://github.com/nu7hatch/react">http://github.com/nu7hatch/react</a></p><hr id='slide-38' /><h2>Fresh ideas</h2>
 
@@ -454,7 +485,8 @@ $ ruby worker.rb
 <li>prefix/wildcard autocomplete</li>
 <li>activity streams</li>
 <li>...?</li>
-</ul><hr id='slide-39' /><h2>Bigdis</h2>
+</ul>
+<hr id='slide-39' /><h2>Bigdis</h2>
 
 <ul>
 <li>even smaller and faster than redis...</li>
@@ -463,17 +495,18 @@ $ ruby worker.rb
 <li>value == file contents</li>
 </ul>
 
+
 <p>Why do we need that? o_O</p><hr id='slide-40' /><h2>Questions?</h2><hr id='slide-41' /><h2>Thank you!</h2>
 
-<p><a href="http://code.google.com/p/redis">http://code.google.com/p/redis</a><br />
+<p>  <a href="http://code.google.com/p/redis">http://code.google.com/p/redis</a><br />
   <a href="http://rediscookbook.org">http://rediscookbook.org</a><br /></p>
 
 <h2>Follow us...</h2>
 
-<p><a href="http://github.com/nu7hatch">http://github.com/nu7hatch</a><br />
+<p>  <a href="http://github.com/nu7hatch">http://github.com/nu7hatch</a><br />
   <a href="http://github.com/knapo">http://github.com/knapo</a><br /></p>
 
-<p>You can find this presentation at: </p>
+<p>You can find this presentation at:</p>
 
 <p><a href="http://github.com/nu7hatch/krug-redis-presentation">http://github.com/nu7hatch/krug-redis-presentation</a></p>
   </div>

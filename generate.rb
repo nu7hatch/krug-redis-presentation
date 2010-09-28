@@ -12,4 +12,8 @@ Dir[File.join(ROOT, "slides/*.md")].sort.each_with_index do |fname, i|
   @@slides << BlueCloth.new(File.open(fname).read).to_html
 end
 
-puts @@layout.gsub("{{ content }}", @@slides.join)
+@@slides_html = @@layout.gsub("{{ content }}", @@slides.join)
+
+File.open(ARGV[0] || "slides.html", "w+"){|f| f.write(@@slides_html)}
+
+puts @@slides_html
