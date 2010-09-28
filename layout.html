@@ -15,17 +15,38 @@
   </style>
   <script type="text/javascript" src="http://code.jquery.com/jquery-1.4.2.min.js"></script>
   <script type="text/javascript">
+    var currentSlideNo = 0;
+
+    function slideId(slideNo){
+      return 'slide-' + slideNo;
+    }
+
+    function goToSlide(slideNo){
+      var targetOffset =  $('#' + slideId(slideNo)).offset().top;
+      $('html,body').animate({scrollTop: targetOffset}, 1000);
+      document.location.hash = slideId(slideNo);
+    }
+
     $(document).ready(function() {
-      var current = $('hr:first');
       $(window).keypress(function(key) {
-        var targetOffset = current.offset().top;
-        $('html,body').animate({scrollTop: targetOffset}, 1000);
-        current = current.nextAll('hr').first();
+        currentSlideNo = Number(document.location.hash.split('-')[1]) || 0;
+	var nextSlide = document.getElementById(slideId(currentSlideNo + 1));
+        var prevSlide = document.getElementById(slideId(currentSlideNo - 1));
+        if((key.which == '32' || key.which == '13') && nextSlide){
+          goToSlide(currentSlideNo + 1);
+          currentSlideNo += 1;
+          return false;
+        } else if(key.which == '8' && prevSlide) {
+          goToSlide(currentSlideNo - 1);
+          currentSlideNo -= 1;
+          return false;
+        }
+          return true;
       })
     })
   </script>
 </head>
-<body>
+<body id="slide-0">
   <div id="main">
     {{ content }}
   </div>
