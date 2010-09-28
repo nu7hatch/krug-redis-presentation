@@ -282,7 +282,7 @@ $ redis-cli
 $ multi
 $ get foo
 $ set foo 20
-$ exex
+$ exec
 10
 20
 </code></pre>
@@ -329,7 +329,7 @@ $ =&gt; "bar"
 <hr id='slide-28' /><h3>Background jobs</h3><hr id='slide-29' /><h4>Resque</h4>
 
 <ul>
-<li><p>bg jobs - any ruby class/module responding to perform</p>
+<li><p>resque bg job - any ruby class/module responding to perform</p>
 
 <pre><code>class ForfiterWorker
   @queue = :gierary_hirr
@@ -348,7 +348,7 @@ end
 
 QUEUE=* rake resque:work
 </code></pre></li>
-<li><p><a href="http://github.com/defunkt/redis-namespace">redis-namespace</a>: Resque.redis.namespace = "aligator"</p></li>
+<li><p><a href="http://github.com/defunkt/redis-namespace">redis-namespace</a>: <code>Resque.redis.namespace = "aligator"</code></p></li>
 <li><a href="http://github.com/defunkt/resque">http://github.com/defunkt/resque</a></li>
 </ul>
 <hr id='slide-30' /><h4>Ost</h4>
@@ -388,27 +388,73 @@ ends
 </ul>
 
 
-<p>... coming soon =P</p><hr id='slide-32' /><h3>ORMs...?</h3>
+<p>... coming soon =P</p><hr id='slide-32' /><h3>ORMs and mapping ruby objects to redis types (1)</h3>
 
 <ul>
-<li><a href="http://github.com/whoahbot/dm-redis-adapter">http://github.com/whoahbot/dm-redis-adapter</a></li>
-<li><a href="http://github.com/voloko/redis-model">http://github.com/voloko/redis-model</a></li>
-<li><a href="http://github.com/tlossen/remodel">http://github.com/tlossen/remodel</a></li>
+<li>killer feature of Redis is allowing to perform atomic operations on individual data structures</li>
+<li>using an ORM wrapper removes the atomicity</li>
+<li><p><a href="http://github.com/tlossen/remodel">http://github.com/tlossen/remodel</a></p>
+
+<pre><code>class Forfiter &lt; Remodel::Entity
+  has_many :czikens, :class =&gt; 'Cziken', :reverse =&gt; :forfiter
+  property :name, :class =&gt; 'String'
+  property :size, :class =&gt; 'Integer'
+end
+</code></pre></li>
+<li><p><a href="http://github.com/whoahbot/dm-redis-adapter">http://github.com/whoahbot/dm-redis-adapter</a></p>
+
+<pre><code>class Cafe
+  include DataMapper::Resource
+
+  property :id,     Serial
+  property :name,   Text
+end
+</code></pre></li>
 </ul>
-<hr id='slide-33' /><h3>Ohm</h3>
+<hr id='slide-33' /><h3>ORMs and mapping ruby objects to redis types (2)</h3>
 
 <ul>
-<li><a href="http://github.com/soveran/ohm">http://github.com/soveran/ohm</a></li>
-<li>object-hash mapping library for redis</li>
-<li>TODO</li>
+<li><p><a href="http://github.com/voloko/redis-model">http://github.com/voloko/redis-model</a></p>
+
+<pre><code>class Forfiter &lt; Redis::Model
+  field :name,      :string
+  field :created,   :datetime
+
+  list  :czikens,   :json
+end
+</code></pre></li>
+<li><p><a href="http://github.com/soveran/ohm">http://github.com/soveran/ohm object-hash mapping</a></p>
+
+<pre><code>class Forfiter &lt; Ohm::Model
+  attribute :name
+  set :czikens, Cziken
+  counter :likes
+end 
+</code></pre></li>
 </ul>
 <hr id='slide-34' /><h3>redis-objects</h3>
 
 <ul>
 <li><a href="http://github.com/nateware/redis-objects">http://github.com/nateware/redis-objects</a></li>
 <li>maps redis types to ruby objects</li>
-<li>easy to integrate directly with existing ORMs (AR, DM etc.)</li>
-<li>TODO</li>
+<li><p>easy to integrate directly with existing ORMs (AR, DM etc.)</p>
+
+<pre><code>class Team &lt; ActiveRecord::Base
+  include Redis::Objects
+
+  counter :hits, start =&gt; 1
+  list :czikens
+end
+</code></pre></li>
+<li><p>standalone usage (<code>Redis::Value, Redis::Counter, Redis::List, Redis::Hash, Redis::Sets etc.</code>)</p>
+
+<pre><code> @counter = Redis::Counter.new('likes')
+ @counter.increment
+
+ @list = Redis::List.new('czikens')
+ @list &lt;&lt; 'cziken1' &lt;&lt; 'cziken2'
+ @list.values # ["cziken1", "cziken2"]
+</code></pre></li>
 </ul>
 <hr id='slide-35' /><h3>Nest</h3>
 

@@ -6,7 +6,7 @@
     $ multi
     $ get foo
     $ set foo 20
-    $ exex
+    $ exec
     10
     20
     

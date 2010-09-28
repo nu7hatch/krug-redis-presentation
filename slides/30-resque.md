@@ -1,6 +1,6 @@
 #### Resque
 
-* bg jobs - any ruby class/module responding to perform
+* resque bg job - any ruby class/module responding to perform
 
       class ForfiterWorker
         @queue = :gierary_hirr
@@ -19,5 +19,5 @@
 
       QUEUE=* rake resque:work
 
-* [redis-namespace](http://github.com/defunkt/redis-namespace): Resque.redis.namespace = "aligator"
+* [redis-namespace](http://github.com/defunkt/redis-namespace): `Resque.redis.namespace = "aligator"`
 * [http://github.com/defunkt/resque](http://github.com/defunkt/resque)
